@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>새 상품 등록 - Product Management</title>
+    <title>새 카테고리 등록 - Category Management</title>
     <style>
         body { font-family: 'Malgun Gothic', Arial, sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px; color: #333; }
         h1 { border-bottom: 2px solid #4a90d9; padding-bottom: 10px; color: #2c3e50; }
@@ -19,7 +19,6 @@
             outline: none; border-color: #4a90d9; box-shadow: 0 0 0 3px rgba(74,144,217,0.15);
         }
         /* 검증 오류 스타일 */
-        .field-error { border-color: #e74c3c !important; }
         .error-msg { color: #e74c3c; font-size: 0.85em; margin-top: 5px; display: block; }
         textarea { height: 120px; resize: vertical; }
         .btn-submit { background: #4a90d9; color: white; border: none; padding: 12px 32px; font-size: 1em; border-radius: 4px; cursor: pointer; }
@@ -31,13 +30,29 @@
 <body>
     <h1>새 카테고리 등록</h1>
 
+    <a class="back-btn" th:href="@{/categories}">← 목록으로 돌아가기</a>
+
+
     <!-- th:object + th:field + th:errors 패턴 -->
     <form th:action="@{/categories/create}" th:object="${categoryForm}" method="post">
-        <!-- th:field가 name, id, value를 자동 설정 -->
-        <input type="text" th:field="*{name}" placeholder="카테고리 이름"/>
-        <!-- th:errors: BindingResult 오류(중복/공백) 메시지 자동 표시 -->
-        <span th:errors="*{name}" style="color:red"></span>
-        <button type="submit">등록</button>
+
+        <div class="form-group">
+            <label for="name">
+                카테고리 <span class="required">*</span>
+            </label>
+
+            <!-- th:field가 name, id, value를 자동 설정 -->
+            <input type="text"
+                   id="name"
+                   th:field="*{name}"
+                   th:classappend="${#fields.hasErrors('name')} ? 'field-error'"
+                   placeholder="카테고리명을 입력하세요"/>
+            <!-- th:errors: BindingResult 오류(중복/공백) 메시지 자동 표시 -->
+            <span class="error-msg" th:errors="*{name}" style="color:red"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn-submit">등록</button>
+        </div>
     </form>
 
     <p th:text="${'실습 수행: ' + #temporals.format(#temporals.createNow(), 'yyyy-MM-dd HH:mm:ss') + ' | 학번: 2371215 | 성명: 정희찬'}"></p>
