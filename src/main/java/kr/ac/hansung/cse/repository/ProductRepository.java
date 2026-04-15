@@ -70,6 +70,22 @@ public class ProductRepository {
         return query.getResultList();
     }
 
+    // 이름 검색: JPQL의 LIKE로 키워드 포함 여부 검사
+    public List<Product> findByNameContaining(String keyword) {
+        TypedQuery<Product> query = entityManager
+                .createQuery("SELECT p FROM Product p WHERE p.name LIKE :keyword", Product.class)
+                .setParameter("keyword", "%" + keyword + "%");  // "%" + keyword + "%"  →  부분 일치 검색
+        return query.getResultList();
+    }
+
+    // 카테고리 검색: Product의 category.id로 조회
+    public List<Product> findByCategoryId(Long categoryId) {
+        TypedQuery<Product> query = entityManager
+                .createQuery("SELECT p FROM Product p WHERE p.category.id = :cid", Product.class)
+                .setParameter("cid", categoryId);
+        return query.getResultList();
+    }
+
     /**
      * ID로 단일 상품 조회
      *
