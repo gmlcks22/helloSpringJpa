@@ -86,6 +86,15 @@ public class ProductRepository {
         return query.getResultList();
     }
 
+    // 이름 + 카테고리 검색
+    public List<Product> findByNamdContainintAndCategoryId(String keyword, Long categoryId) {
+        TypedQuery<Product> query = entityManager
+                .createQuery("SELECT p FROM Product p LEFT JOIN FETCH p.category WHERE p.category.id = :cid AND p.name LIKE :keyword", Product.class)
+                .setParameter("keyword", "%" + keyword + "%")  // "%" + keyword + "%"  →  부분 일치 검색
+                .setParameter("cid", categoryId);
+        return query.getResultList();
+    }
+
     /**
      * ID로 단일 상품 조회
      *

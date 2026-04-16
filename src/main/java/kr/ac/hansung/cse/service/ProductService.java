@@ -127,7 +127,7 @@ public class ProductService {
     }
 
     /**
-     * 상품 삭제
+     * 상품
      */
     @Transactional
     public void deleteProduct(Long id) {
@@ -142,5 +142,10 @@ public class ProductService {
     // 카테고리 필터
     public List<Product> searchByCategory(Long categoryId) {
         return productRepository.findByCategoryId(categoryId);
+    }
+
+    // 이름과 카테고리 검색
+    public List<Product> searchByNameAndCategory(String keyword, Long categoryId) {
+        return productRepository.findByNamdContainintAndCategoryId(keyword, categoryId);
     }
 }

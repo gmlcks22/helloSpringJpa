@@ -24,8 +24,8 @@ public class CategoryService {
     @Transactional  // readOnly Overriding -> Write 허용
     public Category createCategory(String name) {
         // 중복 검사: 이름이 이미 있으면 에외 발생
-        categoryRepository.findByName(name).
-                ifPresent(c -> { throw new DuplicateCategoryException(name); });
+        categoryRepository.findByName(name)
+                .ifPresent(c -> { throw new DuplicateCategoryException(name); });
         return categoryRepository.save(new Category(name));
     }
 
